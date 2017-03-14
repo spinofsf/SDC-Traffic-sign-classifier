@@ -19,14 +19,30 @@ The python notebook `traffic_sign_classifier.ipynb` implements the dataset visua
 * out_images                        -   Folder with additional test images 
 * writeup.md                        -   You are reading it
 
-
 ### Data exploration and visualization
 
+The traffic sign dataset that we use for the project consists of a more than 50,000 images classified into 43 classes. A description of the classes are included below for reference. Each traffic sign image is a resized RGB image of 32x32x3 pixels. The dataset is split into training, validation and test datasets as shown below.    
+
+|  Traffic Sign Dataset                     |
+|:-----------------------------------------:|
+|    Training Set   : 34799                 |
+|    Validation Set :  4410                 |     
+|    Test Set       : 12630                 |
+
+Here is a sample image from each class in the dataset
+
+![alt text](./writeup_images/sample_image_class.png)
+
+Looking at the distribution of images by class, we realize that it is quite uniform. There are certain classes of traffic signs that are underrespresented. It is clear that augmenting these data in these classes is neecessary to improve the overal test accuracy.
+
+![alt text](./writeup_images/hist_class.png)
 
 
 ### Model Architecture and Training
 
-The model architecture is similar to the architecture proposed [here by NVIDIA](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf). This architecture has been demonstrated to work in real world setting and seems to have generated reasonably good results. Hence this network was chosen as the starting point. However, since our track and lane conditions are much simpler, the depth of the network and the nodes at each layer were reduced. As described below, the final model consists of 4 convolutional layers with 3x3 convolution windows. Relu activation and 2x2 max pooling is applied after each conv. layer. Finally 3 FC layers with dropout are utilized to estimate the output of steering angle. Most of the parameters such as window sizes, learning rate were finalized based on empirical data. 
+The model architecture is similar to the architecture proposed by Sermanet located [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). While this paper seems to be dated, it was a great starting point for the model architecture that resulted in > 97% test accuracy with a few tweaks. Most of the parameters such as learning rates, epochs, convolution window sizes and sampling  etc. were  Further work can be done to adapt the model to the current state of the art in pattern classification.  
+
+However, since our track and lane conditions are much simpler, the depth of the network and the nodes at each layer were reduced. As described below, the final model consists of 4 convolutional layers with 3x3 convolution windows. Relu activation and 2x2 max pooling is applied after each conv. layer. Finally 3 FC layers with dropout are utilized to estimate the output of steering angle. Most of the parameters such as window sizes, learning rate were finalized based on empirical data. 
 
 The augmented data set was split into training and validation sets. Training and validation losses were monitored to ensure that the model is not overfitting the data. To better generalize, the driving data that was collected was augmented to reduce driving biases associated with the data set. Also, dropout was used in the dense layers toward the output. It was also observed that 10 epochs of training are sufficient to run the car reasonably well in autonomous mode. There is room for more optimization - both in terms of augmenting the data and the model if needed.
 
@@ -37,45 +53,77 @@ The car runs easily at the default speed setting of 9 mph set in `drive.py`. It 
 The final model architecture is located in the file `behavioural cloning.ipynb` and is shown below. It consists of 4 convolution layers followed by 3 FC layers. Each convolution layers is followed by a Relu activation layers and a max pooling layer. The convolution windows are 3x3 and pooling windows are chosen to be 2x2. A lamda layer takes the cropped input images and normalizes them before passing them through the conv. layers.
 
 ```python
-    #Keras model
-    from keras.models import Sequential
-    from keras.layers import Dense, Dropout, Activation, Convolution2D, core, convolutional, MaxPooling2D, Lambda, Flatten
+   from tensorflow.contrib.layers import flatten
 
-    model = Sequential()
+   def LeNet(x, dr1, dr2):    
+        # Arguments used for tf.truncated_normal, randomly defines variables for the weights and biases for each layer
+        mu = 0
+        sigma = 0.1
+    
+        # Layer 1: Convolutional. Input = 32x32x1. Output = 28x28x6.
+        conv1_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 1, 108), mean = mu, stddev = sigma))
+        conv1_b = tf.Variable(tf.zeros(108))
+        conv1   = tf.nn.conv2d(x, conv1_W, strides=[1, 1, 1, 1], padding='VALID') + conv1_b
 
-    #Original image (160, 320, 3).. With cropping (70,320)
-    model.add(Lambda(lambda x : (x-127.5)/127.5, input_shape = (70,320,3)))
+        # Activation.
+        conv1 = tf.nn.relu(conv1)
 
-    #adds 16 3x3 filters on input and a 2x2 max pooling
-    #output after conv. is 16@68x318, after pooling 16@34x159
-    model.add(Convolution2D(16,3,3))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2,2)))
+        # Pooling. Input = 28x28x6. Output = 14x14x6.
+        conv1 = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
 
-    #output after conv. is 24@32x157, after pooling 24@16x78        
-    model.add(Convolution2D(24,3,3))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2,2)))
-          
-    #output after conv. is 32@14x76, after pooling 32@7x38          
-    model.add(Convolution2D(32,3,3))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2,2)))
+        # Layer 2: Convolutional. Output = 10x10x16.
+        conv2_W = tf.Variable(tf.truncated_normal(shape=(5, 5, 108, 108), mean = mu, stddev = sigma))
+        conv2_b = tf.Variable(tf.zeros(108))
+        conv2   = tf.nn.conv2d(conv1, conv2_W, strides=[1, 1, 1, 1], padding='VALID') + conv2_b
+    
+        # Activation.
+        conv2 = tf.nn.relu(conv2)
 
-    #output after conv. is 64@5x36, after pooling 64@2x18          
-    model.add(Convolution2D(64,3,3))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2,2)))
-          
-    #output is 64X2X18 = 2304          
-    model.add(Flatten())
-    model.add(Dense(300, activation = 'relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(100, activation = 'relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(10, activation = 'relu'))
-    model.add(Dense(1))
+        # Pooling. Input = 10x10x16. Output = 5x5x16.
+        conv2 = tf.nn.max_pool(conv2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
 
+        # Flatten. Input = 5x5x16. Output = 400.
+        fc0   = flatten(conv2)
+    
+        #Feedforward with or without additional 2nd stage subsampling
+        fc0_multi = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='VALID')
+        fc0_multi = flatten(fc0_multi)
+        #fc0_multi = flatten(conv1)
+        
+        fc0 = tf.concat(1,[fc0,fc0_multi])
+        #print(fc0.get_shape())
+        # Without 2nd stage subsampling 14x14x108+5x5x108 = 21168+2700 = 23868
+        # With additional 2nd stage subsampling 7x7x108+5x5x108 = 5292+2700 = 7992
+    
+    
+        # Layer 3: Fully Connected. Input = 400. Output = 120.
+        fc1_W = tf.Variable(tf.truncated_normal(shape=(7992, 100), mean = mu, stddev = sigma))
+        fc1_b = tf.Variable(tf.zeros(100))
+        fc1   = tf.matmul(fc0, fc1_W) + fc1_b
+    
+        # Activation.
+        fc1    = tf.nn.relu(fc1)
+
+        #Dropout
+        fc1    = tf.nn.dropout(fc1,dr1)
+    
+        # Layer 4: Fully Connected. Input = 120. Output = 84.
+        fc2_W  = tf.Variable(tf.truncated_normal(shape=(100, 50), mean = mu, stddev = sigma))
+        fc2_b  = tf.Variable(tf.zeros(50))
+        fc2    = tf.matmul(fc1, fc2_W) + fc2_b
+    
+        # Activation.
+        fc2    = tf.nn.relu(fc2)
+
+        #Dropout
+        fc2    = tf.nn.dropout(fc2,dr2)
+    
+        # Layer 5: Fully Connected. Input = 84. Output = 43.
+        fc3_W  = tf.Variable(tf.truncated_normal(shape=(50, 43), mean = mu, stddev = sigma))
+        fc3_b  = tf.Variable(tf.zeros(43))
+        logits = tf.matmul(fc2, fc3_W) + fc3_b
+    
+        return logits
 ```
 Here is a visualization of network and output from the model that shows the parameters in each layer. As shown below, there are ~750K parameters that are trained in the network.
 
@@ -135,7 +183,29 @@ ________________________________________________________________________________
 
 ```
 
-### Training Set & Data Augmentation
+### Pre-processing Images
+```python
+def pre_process(image):
+    return cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
+
+def normalize_img(image):
+    norm_img = np.zeros(image.shape)
+    return cv2.normalize(image,norm_img,alpha=0.0,beta=1.0,norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+
+def exp_equalize(image):
+    return exposure.equalize_adapthist(image)
+```
+
+
+
+
+
+
+
+
+
+
+
 
 Data was captured from the simulator in training mode and augmented. Total data set includes
 1. three laps of center driving on the original track  
