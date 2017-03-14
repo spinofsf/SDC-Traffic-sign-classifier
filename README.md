@@ -13,17 +13,16 @@ Key steps of this implementation are:
 ---
 ### Code
 
-The python notebook `behavioral_cloning.ipynb` implements the Keras model. Implementation consists of the following files located in the source directory
+The python notebook `traffic_sign_classifier.ipynb` implements the dataset visualization, processing pipeline and the tensorflow model model. Implementation consists of the following files located in the source directory
 
-* behavioral_cloning.ipynb          -   Implements CNN model and processing pipeline   
-* drive.py                          -   Generates the steering angle predictions in autonomous mode
-* model.h5                          -   Saved CNN model
-* out_videos                        -   Folder with car driving in autonomous mode at multiple speeds
+* traffic_sign_classifier.ipynb     -   Implements CNN model and processing pipeline   
+* out_images                        -   Folder with additional test images 
 * writeup.md                        -   You are reading it
 
-Recordings of driving in autonomous mode are available in the folder `out_videos`. The simulator i downloaded had a speed set to 9mph. Uploaded are videos in autonomous mode at speeds 9mph and 15 mph.
 
-The actual model is implemented in `behavioural cloning.ipynb`. It also contains data augmenting and processing routines.
+### Data exploration and visualization
+
+
 
 ### Model Architecture and Training
 
