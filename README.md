@@ -266,10 +266,16 @@ After the data is augmented, total dataset comprised of ~18K images. The data se
 
 The network was run for 10 epochs anf Adam optimizer was used with a modified learning rate of 0.0001. This is observed  to result in slightly better validation performance than the default learning rate.
 
-### Video Output
+### Results
 
-Here is the link to the [video output](https://youtu.be/6w7EaAMmfV0). 
+Here are the results obtained from images on the web. These test images were collected from google maps in Europe, cropped and resized to 32x32 pixels and fed to the model.
 
+
+![alt text](./writeup_images/test_images.png)
+
+![alt text](./writeup_images/test_images_preprocess.png)
+
+![alt text](./writeup_images/test_image_results.png)
 ---
 
 ### Discussion and further work
