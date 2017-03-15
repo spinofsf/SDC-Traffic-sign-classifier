@@ -172,7 +172,8 @@ The images are read in batches and processed using the routines described above.
         for offset in range(0, num_examples, BATCH_SIZE):
             end = offset + BATCH_SIZE
             batch_x, batch_y = X_train[offset:end], y_train[offset:end]
-            sess.run(training_operation, feed_dict={x: batch_x, y: batch_y, keep_prob_fc1: drop1, keep_prob_fc2: drop2})
+            sess.run(training_operation, feed_dict= \
+               {x: batch_x, y: batch_y, keep_prob_fc1: drop1, keep_prob_fc2: drop2})
             
         validation_accuracy = evaluate(X_valid, y_valid, 1.0, 1.0)
         print("EPOCH {} ...".format(i+1))
