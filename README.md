@@ -127,7 +127,7 @@ The final model architecture is located in the file `traffic_sign_classifier.ipy
         return logits
 ```
 
-Here is a visualization of network and output from the model that shows the parameters in each layer. As shown below, there are ~750K parameters that are trained in the network.
+Here is a visualization of network and output from the model that shows the parameters in each layer. 
 
 ![alt text](./writeup_images/conv_net.png)
 
@@ -215,6 +215,10 @@ Here are the same images after pre-processing
 And the result from the CNN, it can be seen that the model classifies the images accurately. 
 
 ![alt text](./writeup_images/test_image_results.png)
+
+The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images.
+
+
 ---
 
 ### Discussion and further work
