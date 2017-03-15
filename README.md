@@ -201,17 +201,20 @@ After about 200 epochs, the validation accuracy of about 97% is achieved
    Model saved
 ```
 
-### Results
+### Testing the model on new images
 
-Here are the results obtained from images on the web. These test images were collected from google maps in Europe, cropped and resized to 32x32 pixels and fed to the model.
-
+Test images were collected from google maps in Europe, cropped, resized to 32x32x3 pixels and fed to the model. Shown below are a few images captured.
 
 ![alt text](./writeup_images/test_images.png)
 
+Here are the same images after pre-processing
+
 ![alt text](./writeup_images/test_images_preprocess.png)
+
+And the result from the CNN, it can be seen that the model classifies the images accurately. 
 
 ![alt text](./writeup_images/test_image_results.png)
 ---
 
 ### Discussion and further work
-This project is a good introduction to Keras and CNN's. Many improvements can be seen, mostly as a result of collecting better training data and augmenting. The CNN model seems quite robust and capable of learning complex non-linear functions as already demonstrated in the NVIDIA study mentioned above. Further work can be done in implementing a more complex network and run it on data collected in the real world.
+This project is a good introduction to Tensorflow and classification using convnets. Many mentioned above, improvements can be seen especially in the areas of augmenting (flip, shear, blur images) and pre-processing (. Another area that can be looked into is to look into the current state-of-art architectures in classification, their accuracy and implementing one at some point in the future.
