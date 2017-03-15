@@ -165,9 +165,7 @@ These three processing steps are sufficient to get reasonably good validation an
 
 ### Running the pipeline and testing 
 
-![alt text](./writeup_images/image_pipeline.png)
-
-The images are read in batches and processed using the routines described above. About 150 -200 epochs were needed to get good performance especially since a slower learning rate of 0.0001 was being used as shown below.
+The images are read in batches of 128 and processed using the routines described above. About 150 -200 epochs were needed to get good performance especially since a slower learning rate of 0.0001 was being used as shown below.
 
 ```python
    for i in range(EPOCHS):
