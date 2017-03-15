@@ -13,7 +13,7 @@ Key steps of this implementation are:
 ---
 ### Code
 
-The python notebook `traffic_sign_classifier.ipynb` implements the dataset visualization, processing pipeline and the tensorflow model model. Implementation consists of the following files located in the source directory
+The python notebook `traffic_sign_classifier.ipynb` implements the dataset visualization, processing pipeline and the tensorflow model. Implementation consists of the following files located in the source directory
 
 * traffic_sign_classifier.ipynb     -   Implements CNN model and processing pipeline   
 * out_images                        -   Folder with additional test images 
