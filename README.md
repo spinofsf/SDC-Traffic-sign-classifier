@@ -28,6 +28,7 @@ The traffic sign dataset that we use for the project consists of a more than 50,
 |    Training Set      :  34799              |
 |    Validation Set    :  4410               |     
 |    Test Set          :  12630              |
+|    Classes           :  43                 |
 
 Here is a random sample image from each of the 43 classes in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. Looking at this a robust pre-processing pipeline is needed to accurately extract features from these images. As described later, the pre-processing consists of normalization and local contrast enhancement. There are a multitude of techniques in literature that can be further applied to enhance the quality of the dataset. This will be an interesting avenue to explore further.
 
@@ -233,7 +234,7 @@ For the rest of the images, the classifier was able to accurately identify them 
 
 Image2
 
-|    Prob.         |   Prediction            |
+|    Prob.          |   Prediction            |
 |:-----------------:|:---------------------------:|
 |    100.000% | Keep right           |
 |    0.000%   | Turn left ahead      |
