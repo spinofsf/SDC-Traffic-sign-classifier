@@ -234,16 +234,19 @@ And the result from the CNN, it can be seen that the model classifies the images
 
 The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images.
 
-* Image1
-|    Prob.         |   Prediction            |
-|:----------------:|:---------------------:|
+Image1
+
+|    Prob.        |   Prediction          |
+|:---------------:|:---------------------:|
 |    99.753%      | Speed limit (50km/h)  |
 |    0.184%       | Stop                  |
 |    0.042%       | Keep left             |
 |    0.021%       | Speed limit (30km/h)  | 
 |    0.000%       | Speed limit (60km/h)  |
 
-* Image2
+
+Image2
+
 |    Prob.         |   Prediction            |
 |:-----------------:|:---------------------------:|
 |    100.000% | Keep right           |
@@ -252,7 +255,9 @@ The top 5 softmax probabilities associated with each of these images is shown be
 |    0.000%   | Speed limit (60km/h) |
 |    0.000%   | End of all speed and passing limits|
 
-* Image3
+
+Image3
+
 |    Prob.          |   Prediction            |
 |:-----------------:|:------------------------------:|
 |    99.996%  | Class: Speed limit (70km/h)    |
@@ -261,7 +266,9 @@ The top 5 softmax probabilities associated with each of these images is shown be
 |    0.000%   | Class: Go straight or left     |
 |    0.000%   | Class: General caution         |
 
-* Image4
+
+Image4
+
 |    Prob.          |   Prediction                                     |
 |:-----------------:|:-----------------------------------------------:|
 |    100.000% | Class: Right-of-way at the next intersection    |
@@ -270,7 +277,9 @@ The top 5 softmax probabilities associated with each of these images is shown be
 |    0.000%   | Class: Double curve                             |
 |    0.000%   | Class: Pedestrians                              |
 
-* Image5
+
+ Image5
+
 |    Prob.          |   Prediction                 |
 |:-----------------:|:----------------------------:|
 |    99.999%  | Class: Turn left ahead       |
