@@ -5,7 +5,7 @@ Note that even though certain types of image classification problems(OCR etc.) u
 Key steps of this implementation are:
 * Explore and visualize the german traffic sign dataset
 * Design a logistic classification architecture 
-* Build a image processing pipeline to generalize the data
+* Build a pipeline to pre-process the data
 * Implement a DNN using tensorflow
 * Train and validate the model
 * Test the model on captured images 
