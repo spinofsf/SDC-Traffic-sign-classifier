@@ -233,8 +233,9 @@ And the result from the CNN, it can be seen that the model classifies the images
 ![alt text](./writeup_images/test_image_results.png)
 
 The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images.
- 
-|    probs         |   Prediction            |
+
+* Image1
+|    Prob.         |   Prediction            |
 |:----------------:|:---------------------:|
 |    99.753%      | Speed limit (50km/h)  |
 |    0.184%       | Stop                  |
@@ -242,7 +243,8 @@ The top 5 softmax probabilities associated with each of these images is shown be
 |    0.021%       | Speed limit (30km/h)  | 
 |    0.000%       | Speed limit (60km/h)  |
 
-|    probs         |   Prediction            |
+* Image2
+|    Prob.         |   Prediction            |
 |:-----------------:|:---------------------------:|
 |    100.000% | Keep right           |
 |    0.000%   | Turn left ahead      |
@@ -250,29 +252,32 @@ The top 5 softmax probabilities associated with each of these images is shown be
 |    0.000%   | Speed limit (60km/h) |
 |    0.000%   | End of all speed and passing limits|
 
-|    probs         |   Prediction            |
+* Image3
+|    Prob.          |   Prediction            |
 |:-----------------:|:------------------------------:|
-|    Prob: 99.996%  | Class: Speed limit (70km/h)    |
-|    Prob: 0.004%   | Class: Speed limit (30km/h)    |
-|    Prob: 0.000%   | Class: Speed limit (20km/h)    |
-|    Prob: 0.000%   | Class: Go straight or left     |
-|    Prob: 0.000%   | Class: General caution         |
+|    99.996%  | Class: Speed limit (70km/h)    |
+|    0.004%   | Class: Speed limit (30km/h)    |
+|    0.000%   | Class: Speed limit (20km/h)    |
+|    0.000%   | Class: Go straight or left     |
+|    0.000%   | Class: General caution         |
 
-|    probs         |   Prediction            |
+* Image4
+|    Prob.          |   Prediction                                     |
 |:-----------------:|:-----------------------------------------------:|
-|    Prob: 100.000% | Class: Right-of-way at the next intersection    |
-|    Prob: 0.000%   | Class: Beware of ice/snow                       |
-|    Prob: 0.000%   | Class: Turn right ahead                         |
-|    Prob: 0.000%   | Class: Double curve                             |
-|    Prob: 0.000%   | Class: Pedestrians                              |
+|    100.000% | Class: Right-of-way at the next intersection    |
+|    0.000%   | Class: Beware of ice/snow                       |
+|    0.000%   | Class: Turn right ahead                         |
+|    0.000%   | Class: Double curve                             |
+|    0.000%   | Class: Pedestrians                              |
 
-|    probs         |   Prediction            |
-|:----------------:|:----------------------------:|
-|    Prob: 99.999% | Class: Turn left ahead       |
-|    Prob: 0.001%  | Class: Keep right            |
-|    Prob: 0.000%  | Class: Ahead only            |
-|    Prob: 0.000%  | Class: Go straight or right  |
-|    Prob: 0.000%  | Class: Speed limit (60km/h)  |
+* Image5
+|    Prob.          |   Prediction                 |
+|:-----------------:|:----------------------------:|
+|    99.999%  | Class: Turn left ahead       |
+|    0.001%   | Class: Keep right            |
+|    0.000%   | Class: Ahead only            |
+|    0.000%   | Class: Go straight or right  |
+|    0.000%   | Class: Speed limit (60km/h)  |
 
 ---
 
