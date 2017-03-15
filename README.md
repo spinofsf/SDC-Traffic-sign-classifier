@@ -200,6 +200,7 @@ After about 200 epochs, the validation accuracy of about 97% is achieved
 
    Model saved
 ```
+Running this on the test set, an accuracy of 95.4% is achieved.
 
 ### Testing the model on new images
 
