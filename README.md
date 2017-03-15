@@ -23,7 +23,7 @@ The python notebook `traffic_sign_classifier.ipynb` implements the dataset visua
 
 The traffic sign dataset that we use for the project consists of a more than 50,000 images classified into 43 classes. A description of the classes are included below for reference. Each traffic sign image is a resized RGB image of 32x32x3 pixels. 
 
-Here is a random sample image from each of the 43 classes in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. Looking at this a robust pre-processing pipeline is needed to accurately extract features from these images. As described later, the pre-processing consists of normalization and local contrast enhancement. There are a multitude of techniques in literature that can be further applied to enhance the quality of the dataset. This will be an interesting avenue to explore further.
+Here is a random sample image from each of the 43 classes in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. Looking at this, a robust pre-processing pipeline is needed to accurately extract features from these images. As described later, the pre-processing consists of normalization and local contrast enhancement. There are a multitude of techniques that can be further applied to enhance the quality of the dataset and this will be an interesting avenue to explore further.
 
 ![alt text](./writeup_images/image_random_sample.png)
 
