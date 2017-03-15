@@ -35,7 +35,7 @@ Here is a random sample image from each of the 43 classes in the dataset. From t
 
 Looking at the distribution of training set images by class, it is clear the distribution is not very uniform. There are certain classes of traffic signs that are underrespresented. Augmenting data in these underrespresented classes is nececessary to improve the overal test accuracy. Described below are images with 
 
-->![alt text](./writeup_images/image_class_hist.png)<-
+![alt text](./writeup_images/image_class_hist.png)
 
 
 ### Model Architecture and Training
@@ -50,7 +50,7 @@ The classifier achieves a validation accuracy of >97% and a test accuracy of >95
 
 ### Final Model 
 
-The final model architecture is located in the file `behavioural cloning.ipynb` and is shown below. It consists of 4 convolution layers followed by 3 FC layers. Each convolution layers is followed by a Relu activation layers and a max pooling layer. The convolution windows are 3x3 and pooling windows are chosen to be 2x2. A lamda layer takes the cropped input images and normalizes them before passing them through the conv. layers.
+The final model architecture is located in the file `traffic_sign_classifier.ipynb` and is shown below. As mentioned above, it consists of 2 convolution layers followed by 3 FC layers. Each convolution layers is followed by a Relu activation layers and a max pooling layer. The convolution windows are 5x5 and pooling windows are chosen to be 2x2. In addition, the output of the first stage (after pooling) is fed into first FC layer. 
 
 ```python
    from tensorflow.contrib.layers import flatten
@@ -126,129 +126,41 @@ The final model architecture is located in the file `behavioural cloning.ipynb` 
     
         return logits
 ```
-Here is a visualization of network and output from the model that shows the parameters in each layer. As shown below, there are ~750K parameters that are trained in the network.
 
+Here is a visualization of network and output from the model that shows the parameters in each layer. As shown below, there are ~750K parameters that are trained in the network.
 
 ![alt text](./writeup_images/conv_net.png)
 
-
-
-```python
-____________________________________________________________________________________________________
-Layer (type)                     Output Shape          Param #     Connected to                     
-====================================================================================================
-lambda_1 (Lambda)                (None, 70, 320, 3)    0           lambda_input_1[0][0]             
-____________________________________________________________________________________________________
-convolution2d_1 (Convolution2D)  (None, 68, 318, 16)   448         lambda_1[0][0]                   
-____________________________________________________________________________________________________
-activation_1 (Activation)        (None, 68, 318, 16)   0           convolution2d_1[0][0]            
-____________________________________________________________________________________________________
-maxpooling2d_1 (MaxPooling2D)    (None, 34, 159, 16)   0           activation_1[0][0]               
-____________________________________________________________________________________________________
-convolution2d_2 (Convolution2D)  (None, 32, 157, 24)   3480        maxpooling2d_1[0][0]             
-____________________________________________________________________________________________________
-activation_2 (Activation)        (None, 32, 157, 24)   0           convolution2d_2[0][0]            
-____________________________________________________________________________________________________
-maxpooling2d_2 (MaxPooling2D)    (None, 16, 78, 24)    0           activation_2[0][0]               
-____________________________________________________________________________________________________
-convolution2d_3 (Convolution2D)  (None, 14, 76, 32)    6944        maxpooling2d_2[0][0]             
-____________________________________________________________________________________________________
-activation_3 (Activation)        (None, 14, 76, 32)    0           convolution2d_3[0][0]            
-____________________________________________________________________________________________________
-maxpooling2d_3 (MaxPooling2D)    (None, 7, 38, 32)     0           activation_3[0][0]               
-____________________________________________________________________________________________________
-convolution2d_4 (Convolution2D)  (None, 5, 36, 64)     18496       maxpooling2d_3[0][0]             
-____________________________________________________________________________________________________
-activation_4 (Activation)        (None, 5, 36, 64)     0           convolution2d_4[0][0]            
-____________________________________________________________________________________________________
-maxpooling2d_4 (MaxPooling2D)    (None, 2, 18, 64)     0           activation_4[0][0]               
-____________________________________________________________________________________________________
-flatten_1 (Flatten)              (None, 2304)          0           maxpooling2d_4[0][0]             
-____________________________________________________________________________________________________
-dense_1 (Dense)                  (None, 300)           691500      flatten_1[0][0]                  
-____________________________________________________________________________________________________
-dropout_1 (Dropout)              (None, 300)           0           dense_1[0][0]                    
-____________________________________________________________________________________________________
-dense_2 (Dense)                  (None, 100)           30100       dropout_1[0][0]                  
-____________________________________________________________________________________________________
-dropout_2 (Dropout)              (None, 100)           0           dense_2[0][0]                    
-____________________________________________________________________________________________________
-dense_3 (Dense)                  (None, 10)            1010        dropout_2[0][0]                  
-____________________________________________________________________________________________________
-dense_4 (Dense)                  (None, 1)             11          dense_3[0][0]                    
-====================================================================================================
-Total params: 751,989
-Trainable params: 751,989
-Non-trainable params: 0
-____________________________________________________________________________________________________
-
-```
-
 ### Pre-processing Images
+
+Again, like most machine learning problems, data processing - both augmenting data and pre-processing is critically important to get good performance out of the model. 
+
+The first step involves converting the 32x32 RGB image into a grayscale image. 
+
 ```python
 def pre_process(image):
     return cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
+```
 
+Next the images are normalized as shown below
+
+```python
 def normalize_img(image):
     norm_img = np.zeros(image.shape)
     return cv2.normalize(image,norm_img,alpha=0.0,beta=1.0,norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+```
+Experiments were also done with adding an additional processing step of improving local contrast in the images
 
+```python
 def exp_equalize(image):
     return exposure.equalize_adapthist(image)
 ```
 
+Further areas to explore are in augmenting the data, especially the techniques below can be quite easily implemented. 
+1. Flipping each image along the vertical axis
+2. Changing the angle of the images
 
-
-
-
-
-
-
-
-
-
-
-Data was captured from the simulator in training mode and augmented. Total data set includes
-1. three laps of center driving on the original track  
-2. two laps of driving in reverse and 
-3. one lap of recovery. 
-
-Data collection is oen of the most important parts of this project. One of the experiments that was done was to capture the data while driving the car at the maximum speed which meant that the corners were not taken at the middle of the road, but closer to the edges like in the real world. This results in the car behaving very similarly in autonomous mode as well. The car comes close to the edges while taking a turn but stays within lanes. 
-
-While there is a lot of straight line driving in the training mode that results in neutral steering angle, this data was still kept in the dataset without reducing it. Since this seems to be a valid real world scenario (lot of straight driving as opposed to curves), effort was made to keep the training data as-is and generalize the model using other techniques instead (reverse driving, lr flip, dropout).
-
-Data was augmented in two ways
-1. Including images from both the left and right cameras in the data set. Steering angle correction was left and right cameras was kept at +/-0.2 degrees. 
-2. Flipping each image along the vertical axis
-
-```python
-    camera_adjust_angle = 0.2
-
-    with open(csv_file, 'r') as f:
-        reader = csv.reader(f)    
-        for row in reader:
-            steering_center = float(row[3])
-            steering_left = steering_center + camera_adjust_angle
-            steering_right = steering_center - camera_adjust_angle        
-```
-
-Flipping images is implemented using the numpy function `fliplr()`
-
-```python
-    def flip_imgs(orig_imgs, orig_meas):
-        new_imgs = [np.fliplr(image) for image in orig_imgs]
-        new_meas = [-1*meas for meas in orig_meas]
-        return new_imgs,new_meas
-```
-
-All the images are then cropped on the top and bottom portions of the image so that only the road section is passed through the model
-
-```python
-    def crop_imgs(orig_imgs, crop_htop=70, crop_hbot=140): 
-        new_imgs = [image[crop_htop:crop_hbot,:,:] for image in orig_imgs]        
-        return new_imgs
-```
-Every image captured from the center of the camera is thus processed to generate 6 total images. Shown below are the original images from the left, center and right cameras captured in simulation mode. Note that the steering angles are empirically set to an offset of 0.2deg in either direction. The next row shows the result of flipping each image across the horizontal axis. THe bottom two rows show the cropped versions so that only the road area that is of interest is preserved.
+### Running the pipeline and testing 
 
 ![alt text](./writeup_images/image_pipeline.png)
 
