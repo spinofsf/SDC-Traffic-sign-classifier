@@ -232,7 +232,7 @@ And the result from the CNN, it can be seen that the model classifies the images
 
 ![alt text](./writeup_images/test_image_results.png)
 
-The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images. This is due to the 
+The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images. This is due to the image quality being good - clean angles under good light conditions. 
 
 Image1
 
@@ -245,6 +245,7 @@ Image1
 |    0.000%       | Speed limit (60km/h)  |
 
 
+For the rest of the images, the classifier was able to accurately identify them correctly with high certainity
 Image2
 
 |    Prob.         |   Prediction            |
