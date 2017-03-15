@@ -274,7 +274,7 @@ And the result from the CNN, it can be seen that the model classifies the images
 
 ![alt text](./writeup_images/test_image_results.png)
 
-Prediction was done by restoring the saves state and evaluating the model with the new input image
+Prediction was done by restoring the saved state and evaluating the model with the new input image
 
 ```python
    with tf.Session() as sess:
@@ -297,7 +297,7 @@ Image1
 |    0.000%       | Speed limit (60km/h)  |
 
 
-For the rest of the images, the classifier was able to accurately identify them correctly with high certainity
+For the rest of the images, the classifier was able to accurately identify them correctly with very high certainity
 
 Image2
 
@@ -345,4 +345,4 @@ Image4
 ---
 
 ### Discussion and further work
-This project is a good introduction to Tensorflow and classification using convnets. Many mentioned above, improvements can be seen especially in the areas of augmenting (flip, shear, blur images) and pre-processing (. Another area that can be looked into is to look into the current state-of-art architectures in classification, their accuracy and implementing one at some point in the future.
+This project is a good introduction to Tensorflow and classification using convnets. As mentioned above, improvements can be done  in the areas of data augmentation(flip, shear, blur images) and pre-processing. Another area that can be eplored is to investigate the current state-of-art architectures in classification, their accuracy and implementing one at some point in the future.
