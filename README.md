@@ -200,24 +200,7 @@ The images are read in batches of 128 and processed using the routines described
     print("Model saved")
 ```    
 
-After about 200 epochs, the validation accuracy of about 97% is achieved
-
-```python
-   EPOCH 197 ...
-   Validation Accuracy = 0.975
-
-   EPOCH 198 ...
-   Validation Accuracy = 0.976
-
-   EPOCH 199 ...
-   Validation Accuracy = 0.974
-
-   EPOCH 200 ...
-   Validation Accuracy = 0.971
-
-   Model saved
-```
-Running this on the test set, an accuracy of 95.4% is achieved.
+After about 200 epochs, the validation accuracy of about 98% is achieved. Running this on the test set, an accuracy of ~96% is achieved.
 
 ### Testing the model on new images
 
