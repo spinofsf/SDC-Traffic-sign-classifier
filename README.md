@@ -155,6 +155,9 @@ Experiments were also done with adding an additional processing step of improvin
 def exp_equalize(image):
     return exposure.equalize_adapthist(image)
 ```
+Below is a sample image before and after normalization
+
+![alt text](./writeup_images/image_proc.png)
 
 These three processing steps are sufficient to get reasonably good validation and test accuracies (>95%). Further areas to explore are in augmenting the data, especially the techniques below can be quite easily implemented. 
 1. Flipping each image along the vertical axis
