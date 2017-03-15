@@ -31,7 +31,7 @@ The traffic sign dataset that we use for the project consists of a more than 50,
 
 Here is a sample image from each class in the dataset
 
-![alt text](./writeup_images/sample_image_class.png)
+![alt text](./writeup_images/image_random_sample.png)
 
 Looking at the distribution of images by class, we realize that it is quite uniform. There are certain classes of traffic signs that are underrespresented. It is clear that augmenting these data in these classes is neecessary to improve the overal test accuracy.
 
