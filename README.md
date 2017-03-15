@@ -29,7 +29,7 @@ The traffic sign dataset that we use for the project consists of a more than 50,
 |    Validation Set :  4410                 |     
 |    Test Set       : 12630                 |
 
-Here is a sample image from each class in the dataset
+Here is a random sample image from each class in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. 
 
 ![alt text](./writeup_images/image_random_sample.png)
 
