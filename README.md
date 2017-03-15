@@ -29,11 +29,11 @@ The traffic sign dataset that we use for the project consists of a more than 50,
 |    Validation Set :  4410                 |     
 |    Test Set       : 12630                 |
 
-Here is a random sample image from each class in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. 
+Here is a random sample image from each of the 43 classes in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. Looking at this a robust pre-processing pipeline is needed to accurately extract features from these images. As described later, the pre-processing consists of normalization and local contrast enhancement. There are a multitude of techniques in literature that can be further applied to enhance the quality of the dataset. This will be an interesting avenue to explore further.
 
 ![alt text](./writeup_images/image_random_sample.png)
 
-Looking at the distribution of images by class, we realize that it is quite uniform. There are certain classes of traffic signs that are underrespresented. It is clear that augmenting these data in these classes is neecessary to improve the overal test accuracy.
+Looking at the distribution of images by class, it is clear the distribution is not very uniform. There are certain classes of traffic signs that are underrespresented. It is clear that augmenting these data in these classes is neecessary to improve the overal test accuracy.
 
 ![alt text](./writeup_images/hist_class.png)
 
