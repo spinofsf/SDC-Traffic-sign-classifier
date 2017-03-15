@@ -131,6 +131,20 @@ Here is a visualization of network and output from the model that shows the para
 
 ![alt text](./writeup_images/conv_net.png)
 
+| Layer            		|     Description	        					         | 
+|:---------------------:|:---------------------------------------------:| 
+| Input           		| 32x32x3 RGB image   							      | 
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| RELU			   		|												            |
+| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				      |
+| Convolution 3x3	      | etc.      								         	|
+| Fully connected		   | etc.        								         	|
+| Softmax				   | etc.        								         	|
+|					      	|											             	|
+|					      	|												            |
+ 
+
+
 ### Pre-processing Images
 
 Again, like most machine learning problems, data processing - both augmenting data and pre-processing is critically important to get good performance out of the model. 
@@ -219,7 +233,46 @@ And the result from the CNN, it can be seen that the model classifies the images
 ![alt text](./writeup_images/test_image_results.png)
 
 The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images.
+ 
+| Image 1 Top predictions                          |
+|:-----------------------------------------------:|
+|    Prob: 99.753% | Class: Speed limit (50km/h)  |
+|    Prob: 0.184%  | Class: Stop                  |
+|    Prob: 0.042%  | Class: Keep left             |
+|    Prob: 0.021%  | Class: Speed limit (30km/h)  | 
+|    Prob: 0.000%  | Class: Speed limit (60km/h)  |
 
+| Image 2 Top predictions
+|:-----------------------------------------------:|
+|    Prob: 100.000% | Class: Keep right
+|    Prob: 0.000%   | Class: Turn left ahead
+|    Prob: 0.000%   | Class: Stop
+|    Prob: 0.000%   | Class: Speed limit (60km/h)
+|    Prob: 0.000%   | Class: End of all speed and passing limits
+
+| Image 3 Top predictions
+|:--------------------------------------------------:|
+|    Prob: 99.996%  | Class: Speed limit (70km/h)    |
+|    Prob: 0.004%   | Class: Speed limit (30km/h)    |
+|    Prob: 0.000%   | Class: Speed limit (20km/h)    |
+|    Prob: 0.000%   | Class: Go straight or left     |
+|    Prob: 0.000%   | Class: General caution         |
+
+| Image 4 Top predictions
+|:-------------------------------------------------------------------:|
+|    Prob: 100.000% | Class: Right-of-way at the next intersection    |
+|    Prob: 0.000%   | Class: Beware of ice/snow                       |
+|    Prob: 0.000%   | Class: Turn right ahead                         |
+|    Prob: 0.000%   | Class: Double curve                             |
+|    Prob: 0.000%   | Class: Pedestrians                              |
+
+| Image 5 Top predictions                          |
+|:-----------------------------------------------:|
+|    Prob: 99.999% | Class: Turn left ahead       |
+|    Prob: 0.001%  | Class: Keep right            |
+|    Prob: 0.000%  | Class: Ahead only            |
+|    Prob: 0.000%  | Class: Go straight or right  |
+|    Prob: 0.000%  | Class: Speed limit (60km/h)  |
 
 ---
 
