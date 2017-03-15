@@ -234,23 +234,23 @@ And the result from the CNN, it can be seen that the model classifies the images
 
 The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images.
  
-|   Image 1 probs  |   Classes             |
+|    probs         |   Prediction            |
 |:----------------:|:---------------------:|
-|    Prob: 99.753% | Speed limit (50km/h)  |
-|    Prob: 0.184%  | Stop                  |
-|    Prob: 0.042%  | Keep left             |
-|    Prob: 0.021%  | Speed limit (30km/h)  | 
-|    Prob: 0.000%  | Speed limit (60km/h)  |
+|    99.753%      | Speed limit (50km/h)  |
+|    0.184%       | Stop                  |
+|    0.042%       | Keep left             |
+|    0.021%       | Speed limit (30km/h)  | 
+|    0.000%       | Speed limit (60km/h)  |
 
-| Image 2 Top predictions
+|    probs         |   Prediction            |
 |:-----------------:|:---------------------------:|
-|    Prob: 100.000% | Class: Keep right           |
-|    Prob: 0.000%   | Class: Turn left ahead      |
-|    Prob: 0.000%   | Class: Stop                 |
-|    Prob: 0.000%   | Class: Speed limit (60km/h) |
-|    Prob: 0.000%   | Class: End of all speed and passing limits|
+|    100.000% | Keep right           |
+|    0.000%   | Turn left ahead      |
+|    0.000%   | Stop                 |
+|    0.000%   | Speed limit (60km/h) |
+|    0.000%   | End of all speed and passing limits|
 
-| Image 3 Top predictions                            |
+|    probs         |   Prediction            |
 |:-----------------:|:------------------------------:|
 |    Prob: 99.996%  | Class: Speed limit (70km/h)    |
 |    Prob: 0.004%   | Class: Speed limit (30km/h)    |
@@ -258,7 +258,7 @@ The top 5 softmax probabilities associated with each of these images is shown be
 |    Prob: 0.000%   | Class: Go straight or left     |
 |    Prob: 0.000%   | Class: General caution         |
 
-| Image 4 Top predictions                                             |
+|    probs         |   Prediction            |
 |:-----------------:|:-----------------------------------------------:|
 |    Prob: 100.000% | Class: Right-of-way at the next intersection    |
 |    Prob: 0.000%   | Class: Beware of ice/snow                       |
@@ -266,7 +266,7 @@ The top 5 softmax probabilities associated with each of these images is shown be
 |    Prob: 0.000%   | Class: Double curve                             |
 |    Prob: 0.000%   | Class: Pedestrians                              |
 
-| Image 5 Top predictions                         |
+|    probs         |   Prediction            |
 |:----------------:|:----------------------------:|
 |    Prob: 99.999% | Class: Turn left ahead       |
 |    Prob: 0.001%  | Class: Keep right            |
