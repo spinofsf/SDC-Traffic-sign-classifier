@@ -34,17 +34,17 @@ Looking at the distribution of training set images by class, it is clear the dis
 
 ### Model Architecture and Training
 
-The model architecture is similar to the architecture proposed by Sermanet located [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). While this paper seems to be a little dated, it was a great starting point for the model architecture that resulted in > 95% test accuracy just with a few tweaks. Most of the parameters such as learning rates, epochs, convolution window sizes and sampling  etc. were tweaked empirically. An interesting area to explore is to research the current state of the art architectures and the performance being achieved.
+The model architecture is similar to the architecture proposed by Sermanet located [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). While this paper seems to be a little dated, it was a great starting point for the model architecture that resulted in > 95% test accuracy with just a few tweaks. Most of the parameters such as learning rates, epochs, convolution window sizes and sampling  etc. were tweaked empirically. An interesting area to explore is to research the current state of the art architectures and the performance being achieved.
 
-As shown in the paper, the final architecture implemented here is "Lenet with feed-forward connections". The intial stages consists of 2 convolutional layers with 5x5 convolution windows. Relu activation and 2x2 max pooling is applied after each conv. layer. The next stages have three FC layers with dropout to predict the final classification. In addition, the ouputs of first conv. layer is fed-forward to the FC stage after processing through an addition maxpooling stage. The idea here is that the information available post the first stage(which is higher level features and shapes) is preserved and given more weighting in output classification. While this trick may have been helpful in 2011 due to limited capability of running larger networks, it is not entirely clear whether the same performance cannot be achieved today by just employing a larger network with more trainable parameters.
+As shown in the paper, the final architecture implemented can be described as "Lenet with feed-forward connections". The intial stages consists of 2 convolutional layers with 5x5 convolution windows. Relu activation and 2x2 max pooling is applied after each conv. layer. The next stages have two FC layers with dropout to predict the final classification. In addition, the ouputs of first conv. layer is fed-forward to the FC stage after processing through an addition maxpooling stage. The idea here is that the information available post the first stage(higher level features and shapes) is preserved and given more weighting in output classification. While this trick may have been helpful in 2011 due to limited capability of running larger networks, it is not entirely clear whether the same performance cannot be achieved today by just employing a larger network with more trainable parameters.
 
-The processing pipeline consits of converting the RGB image to gray scale, normalization and local contrast adjustment. The dataset was split into training, validation and test sets with the images in each set shown above. Training and validation losses were monitored to ensure that the model is not overfitting the data. To better generalize, dropout was used in the FC layers toward the output. It was also observed that 150 epochs of training are needed before the validation losses to flatten out and not overfit. Adam optimizer with a learning rate of 0.0001 was observed to settle slowly but give slightly better performance. There is room for more optimization - especially in terms of augmenting the training dataset using flipping the images and selective shadowing etc.
+The processing pipeline consits of converting the RGB image to gray scale, normalization and local contrast adjustment. The dataset was split into training, validation and test sets with the images in each set shown below. Training and validation losses were monitored to ensure that the model is not overfitting the data. To better generalize, dropout was used in the FC layers toward the output. It was also observed that 150 epochs of training are needed before the validation losses to flatten out and not overfit. Adam optimizer with a learning rate of 0.0001 was observed to settle slowly but give slightly better performance. There is room for more optimization - especially in terms of augmenting the training dataset using flipping the images and selective shadowing etc.
 
-The classifier achieves a validation accuracy of >97% and a test accuracy of >95% with the architecture used. It easily detects images the are reasonably clear , but often gives wrong predictions when the images were captured at complex angles, shadows or when signs are stacked. Performance in each of these scenarious can be further improved by augmenting the data and better processing techniques. While there are no plans to improve the model further, this was a good learning exercise to understand the importance of quality input data.
+The classifier achieves a validation accuracy of ~98% and a test accuracy of ~96% with the architecture used. It easily detects images the are reasonably clear , but often gives wrong predictions when the images were captured at complex angles, shadows or when multiple signs are stacked. Performance in each of these scenarious can be further improved by augmenting the data and better processing techniques. While there are no plans to improve the model further, this was a good learning exercise to understand the importance of quality input data.
 
 ### Final Model 
 
-The final model architecture is located in the file `traffic_sign_classifier.ipynb` and is shown below. As mentioned above, it consists of 2 convolution layers followed by 3 FC layers. Each convolution layers is followed by a Relu activation layers and a max pooling layer. The convolution windows are 5x5 and pooling windows are chosen to be 2x2. In addition, the output of the first stage (after pooling) is fed into first FC layer. 
+The final model architecture is located in the file `traffic_sign_classifier.ipynb` and is shown below. As mentioned above, it consists of 2 convolution layers followed by 2 FC layers. Each convolution layers is followed by a Relu activation layers and a max pooling layer. The convolution windows are 5x5 and pooling windows are chosen to be 2x2. In addition, the output of the first stage (after pooling) is fed into first FC layer. 
 
 ```python
    from tensorflow.contrib.layers import flatten
@@ -168,7 +168,7 @@ Below is a sample image before and after normalization
 
 ![alt text](./writeup_images/image_proc.png)
 
-These three processing steps are sufficient to get reasonably good validation and test accuracies (>95%). Further areas to explore are in augmenting the data, especially the techniques below can be quite easily implemented. 
+These three processing steps are sufficient to get reasonably good validation and test accuracies. When experimenting, it was observed that even just normalization gives >95% accuracies on the test set as well. Further areas to explore are in augmenting the data, especially the techniques below can be quite easily implemented. 
 1. Flipping each image along the vertical axis
 2. Changing the angle of the images
 
@@ -226,25 +226,36 @@ The images are read in batches of 128 and processed using the routines described
 The model was setup as shown below 
 
 ```python
-rate = 0.0001
+   rate = 0.0001
 
-logits = LeNet(x, keep_prob_fc1, keep_prob_fc2)
-cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits, one_hot_y)
-loss_operation = tf.reduce_mean(cross_entropy)
-optimizer = tf.train.AdamOptimizer(learning_rate = rate)
-training_operation = optimizer.minimize(loss_operation)
+   logits = LeNet(x, keep_prob_fc1, keep_prob_fc2)
+   cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits, one_hot_y)
+   loss_operation = tf.reduce_mean(cross_entropy)
+   optimizer = tf.train.AdamOptimizer(learning_rate = rate)
+   training_operation = optimizer.minimize(loss_operation)
 ```
 
-And testing was done on the data set as shown below
+And testing accuracy was calculated as described below
 
 ```python
 #test accuracy
 with tf.Session() as sess:
-    #saver.restore(sess, tf.train.latest_checkpoint('.'))
     saver.restore(sess,'./lenet_final')
     
     test_accuracy = evaluate(X_test, y_test, 1.0, 1.0)
     print("Test Accuracy = {:.3f}".format(test_accuracy))
+```
+
+```python
+   def evaluate(X_data, y_data, dr1, dr2):
+       num_examples = len(X_data)
+       total_accuracy = 0
+      sess = tf.get_default_session()
+       for offset in range(0, num_examples, BATCH_SIZE):
+           batch_x, batch_y = X_data[offset:offset+BATCH_SIZE], y_data[offset:offset+BATCH_SIZE]
+           accuracy = sess.run(accuracy_operation, feed_dict={x: batch_x, y: batch_y, keep_prob_fc1: 1.0, keep_prob_fc2: 1.0})
+           total_accuracy += (accuracy * len(batch_x))
+       return total_accuracy / num_examples
 ```
 
 After about 200 epochs, the validation accuracy of about 98% is achieved. Running this on the test set, an accuracy of ~96% is achieved.
@@ -266,15 +277,11 @@ And the result from the CNN, it can be seen that the model classifies the images
 Prediction was done by restoring the saves state and evaluating the model with the new input image
 
 ```python
-#predict web_images
-with tf.Session() as sess:
-    #saver.restore(sess, tf.train.latest_checkpoint('.'))
-    saver.restore(sess,'./lenet_final')
-    softmax_web = sess.run(tf.nn.softmax(logits),  feed_dict={x: X_webimages, keep_prob_fc1: 1.0, keep_prob_fc2: 1.0})
-    #print(softmax_web)
+   with tf.Session() as sess:
+       saver.restore(sess,'./lenet_final')
+      softmax_web = sess.run(tf.nn.softmax(logits),  feed_dict={x: X_webimages, keep_prob_fc1: 1.0, keep_prob_fc2: 1.0})
     
-    top5_probs = sess.run(tf.nn.top_k(softmax_web,k = 5))
-    #print(top5_probs)
+      top5_probs = sess.run(tf.nn.top_k(softmax_web,k = 5))
 ```
 
 The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images. This is due to the image quality being good - clean angles under good light conditions. 
