@@ -44,7 +44,7 @@ The model architecture is similar to the architecture proposed by Sermanet locat
 
 As shown in the paper, the final architecture implemented here is "Lenet with feed-forward connections". The intial stages consists of 2 convolutional layers with 5x5 convolution windows. Relu activation and 2x2 max pooling is applied after each conv. layer. The next stages have three FC layers with dropout to predict the final classification. In addition, the ouputs of first conv. layer is fed-forward to the FC stage after processing through an addition maxpooling stage. The idea here is that the information available post the first stage(which is higher level features and shapes) is preserved and given more weighting in output classification. While this trick may have been helpful in 2011 due to limited capability of running larger networks, it is not entirely clear whether the same performance cannot be achieved today by just employing a larger network with more trainable parameters.
 
-The processing pipeline consits of converting the RGB image to gray scale, normalization and local contrast adjustment. The dataset was split into training, validation and test sets with the images in each set shown above. Training and validation losses were monitored to ensure that the model is not overfitting the data. To better generalize, dropout was used in the FC layers toward the output. It was also observed that 150 epochs of training are needed before the validation losses to flatten out and not overfit. There is room for more optimization - especially in terms of augmenting the training dataset using flipping the images and selective shadowing etc.
+The processing pipeline consits of converting the RGB image to gray scale, normalization and local contrast adjustment. The dataset was split into training, validation and test sets with the images in each set shown above. Training and validation losses were monitored to ensure that the model is not overfitting the data. To better generalize, dropout was used in the FC layers toward the output. It was also observed that 150 epochs of training are needed before the validation losses to flatten out and not overfit. Adam optimizer with a learning rate of 0.0001 was observed to settle slowly but give slightly better performance. There is room for more optimization - especially in terms of augmenting the training dataset using flipping the images and selective shadowing etc.
 
 The classifier achieves a validation accuracy of >97% and a test accuracy of >95% with the architecture used. It easily detects images the are reasonably clear , but often gives wrong predictions when the images were captured at complex angles, shadows or when signs are stacked. Performance in each of these scenarious can be further improved by augmenting the data and better processing techniques. While there are no plans to improve the model further, this was a good learning exercise to understand the importance of quality input data.
 
@@ -156,7 +156,7 @@ def exp_equalize(image):
     return exposure.equalize_adapthist(image)
 ```
 
-Further areas to explore are in augmenting the data, especially the techniques below can be quite easily implemented. 
+These three processing steps are sufficient to get reasonably good validation and test accuracies (>95%). Further areas to explore are in augmenting the data, especially the techniques below can be quite easily implemented. 
 1. Flipping each image along the vertical axis
 2. Changing the angle of the images
 
@@ -164,19 +164,42 @@ Further areas to explore are in augmenting the data, especially the techniques b
 
 ![alt text](./writeup_images/image_pipeline.png)
 
-The images are read in batches using a generator. Flipping the images is accomplished in the generator itself rather than processing it before hand. This eliminates loading all the images in memory at the beginning greatly reducing the memory requirements. 
+The images are read in batches and processed using the routines described above. About 150 -200 epochs were needed to get good performance especially since a slower learning rate of 0.0001 was being used as shown below.
 
-Generator is implemented in the function `generator_images()`
+```python
+   for i in range(EPOCHS):
+        X_train, y_train = shuffle(X_train, y_train)
+        for offset in range(0, num_examples, BATCH_SIZE):
+            end = offset + BATCH_SIZE
+            batch_x, batch_y = X_train[offset:end], y_train[offset:end]
+            sess.run(training_operation, feed_dict={x: batch_x, y: batch_y, keep_prob_fc1: drop1, keep_prob_fc2: drop2})
+            
+        validation_accuracy = evaluate(X_valid, y_valid, 1.0, 1.0)
+        print("EPOCH {} ...".format(i+1))
+        print("Validation Accuracy = {:.3f}".format(validation_accuracy))
+        print()
+        
+    saver.save(sess, './lenet_final')
+    print("Model saved")
+```    
 
-After the data is augmented, total dataset comprised of ~18K images. The data set was split into training and validation sets at 80/20 ratio after random shuffling.
+After about 200 epochs, the validation accuracy of about 97% is achieved
 
-|  Dataset including left and right cameras |
-|:-----------------------------------------:|
-|    Total images   : 18537                 |
-|    Training Set   : 14829                 |
-|    Validation Set : 3708                  |                     
+```python
+   EPOCH 197 ...
+   Validation Accuracy = 0.975
 
-The network was run for 10 epochs anf Adam optimizer was used with a modified learning rate of 0.0001. This is observed  to result in slightly better validation performance than the default learning rate.
+   EPOCH 198 ...
+   Validation Accuracy = 0.976
+
+   EPOCH 199 ...
+   Validation Accuracy = 0.974
+
+   EPOCH 200 ...
+   Validation Accuracy = 0.971
+
+   Model saved
+```
 
 ### Results
 
