@@ -23,30 +23,30 @@ The python notebook `traffic_sign_classifier.ipynb` implements the dataset visua
 
 The traffic sign dataset that we use for the project consists of a more than 50,000 images classified into 43 classes. A description of the classes are included below for reference. Each traffic sign image is a resized RGB image of 32x32x3 pixels. The dataset is split into training, validation and test datasets as shown below.    
 
-|  Traffic Sign Dataset                     |
-|:-----------------------------------------:|
-|    Training Set   : 34799                 |
-|    Validation Set :  4410                 |     
-|    Test Set       : 12630                 |
+|  Traffic Sign Dataset                      |
+|:------------------------------------------:|
+|    Training Set      :  34799              |
+|    Validation Set    :  4410               |     
+|    Test Set          :  12630              |
 
 Here is a random sample image from each of the 43 classes in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. Looking at this a robust pre-processing pipeline is needed to accurately extract features from these images. As described later, the pre-processing consists of normalization and local contrast enhancement. There are a multitude of techniques in literature that can be further applied to enhance the quality of the dataset. This will be an interesting avenue to explore further.
 
 ![alt text](./writeup_images/image_random_sample.png)
 
-Looking at the distribution of images by class, it is clear the distribution is not very uniform. There are certain classes of traffic signs that are underrespresented. It is clear that augmenting these data in these classes is neecessary to improve the overal test accuracy.
+Looking at the distribution of training set images by class, it is clear the distribution is not very uniform. There are certain classes of traffic signs that are underrespresented. Augmenting data in these underrespresented classes is nececessary to improve the overal test accuracy. Described below are images with 
 
 ![alt text](./writeup_images/image_class_hist.png)
 
 
 ### Model Architecture and Training
 
-The model architecture is similar to the architecture proposed by Sermanet located [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). While this paper seems to be dated, it was a great starting point for the model architecture that resulted in > 97% test accuracy with a few tweaks. Most of the parameters such as learning rates, epochs, convolution window sizes and sampling  etc. were  Further work can be done to adapt the model to the current state of the art in pattern classification.  
+The model architecture is similar to the architecture proposed by Sermanet located [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). While this paper seems to be a little dated, it was a great starting point for the model architecture that resulted in > 95% test accuracy just with a few tweaks. Most of the parameters such as learning rates, epochs, convolution window sizes and sampling  etc. were tweaked empirically. An interesting area to explore is to research the current state of the art architectures and the performance being achieved.
 
-However, since our track and lane conditions are much simpler, the depth of the network and the nodes at each layer were reduced. As described below, the final model consists of 4 convolutional layers with 3x3 convolution windows. Relu activation and 2x2 max pooling is applied after each conv. layer. Finally 3 FC layers with dropout are utilized to estimate the output of steering angle. Most of the parameters such as window sizes, learning rate were finalized based on empirical data. 
+As shown in the paper, the final architecture implemented here is "Lenet with feed-forward connections". The intial stages consists of 2 convolutional layers with 5x5 convolution windows. Relu activation and 2x2 max pooling is applied after each conv. layer. The next stages have three FC layers with dropout to predict the final classification. In addition, the ouputs of first conv. layer is fed-forward to the FC stage after processing through an addition maxpooling stage. The idea here is that the information available post the first stage(which is higher level features and shapes) is preserved and given more weighting in output classification. While this trick may have been helpful in 2011 due to limited capability of running larger networks, it is not entirely clear whether the same performance cannot be achieved today by just employing a larger network with more trainable parameters.
 
-The augmented data set was split into training and validation sets. Training and validation losses were monitored to ensure that the model is not overfitting the data. To better generalize, the driving data that was collected was augmented to reduce driving biases associated with the data set. Also, dropout was used in the dense layers toward the output. It was also observed that 10 epochs of training are sufficient to run the car reasonably well in autonomous mode. There is room for more optimization - both in terms of augmenting the data and the model if needed.
+The processing pipeline consits of converting the RGB image to gray scale, normalization and local contrast adjustment. The dataset was split into training, validation and test sets with the images in each set shown above. Training and validation losses were monitored to ensure that the model is not overfitting the data. To better generalize, dropout was used in the FC layers toward the output. It was also observed that 150 epochs of training are needed before the validation losses to flatten out and not overfit. There is room for more optimization - especially in terms of augmenting the training dataset using flipping the images and selective shadowing etc.
 
-The car runs easily at the default speed setting of 9 mph set in `drive.py`. It also runs well at an increased speed setting of 15mph without crossing either of the lane boundaries. While there is a bit of moving sideways between the lanes and during the edges, this was primarily due to how the data was captured. The original data was captured at the fastest speed and did not necessarily keep the car always centered. This is another optimization that can be investigated.
+The classifier achieves a validation accuracy of >97% and a test accuracy of >95% with the architecture used. It easily detects images the are reasonably clear , but often gives wrong predictions when the images were captured at complex angles, shadows or when signs are stacked. Performance in each of these scenarious can be further improved by augmenting the data and better processing techniques. While there are no plans to improve the model further, this was a good learning exercise to understand the importance of quality input data.
 
 ### Final Model 
 
