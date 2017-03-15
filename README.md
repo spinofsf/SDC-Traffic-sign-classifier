@@ -21,14 +21,7 @@ The python notebook `traffic_sign_classifier.ipynb` implements the dataset visua
 
 ### Data exploration and visualization
 
-The traffic sign dataset that we use for the project consists of a more than 50,000 images classified into 43 classes. A description of the classes are included below for reference. Each traffic sign image is a resized RGB image of 32x32x3 pixels. The dataset is split into training, validation and test datasets as shown below.    
-
-|  Traffic Sign Dataset                      |
-|:------------------------------------------:|
-|    Training Set      :  34799              |
-|    Validation Set    :  4410               |     
-|    Test Set          :  12630              |
-|    Classes           :  43                 |
+The traffic sign dataset that we use for the project consists of a more than 50,000 images classified into 43 classes. A description of the classes are included below for reference. Each traffic sign image is a resized RGB image of 32x32x3 pixels. 
 
 Here is a random sample image from each of the 43 classes in the dataset. From these images, it is clear that the light conditions and clarity of the features in the image vary considerably. Looking at this a robust pre-processing pipeline is needed to accurately extract features from these images. As described later, the pre-processing consists of normalization and local contrast enhancement. There are a multitude of techniques in literature that can be further applied to enhance the quality of the dataset. This will be an interesting avenue to explore further.
 
@@ -179,6 +172,35 @@ These three processing steps are sufficient to get reasonably good validation an
 1. Flipping each image along the vertical axis
 2. Changing the angle of the images
 
+### Training, validation
+The total dataset is split into training, validation and test datasets as shown below.    
+
+|  Traffic Sign Dataset                      |
+|:------------------------------------------:|
+|    Training Set      :  34799              |
+|    Validation Set    :  4410               |     
+|    Test Set          :  12630              |
+|    Classes           :  43                 |
+
+This is implemented as shown below
+
+```python
+   training_file = '/home/carnd/CarND-Traffic-Sign-Classifier-Project/traffic-signs-data/train.p'
+   validation_file='/home/carnd/CarND-Traffic-Sign-Classifier-Project/traffic-signs-data/valid.p'
+   testing_file = '/home/carnd/CarND-Traffic-Sign-Classifier-Project/traffic-signs-data/test.p'
+
+   with open(training_file, mode='rb') as f:
+       train = pickle.load(f)
+   with open(validation_file, mode='rb') as f:
+       valid = pickle.load(f)
+   with open(testing_file, mode='rb') as f:
+       test = pickle.load(f)
+    
+   X_train, y_train = train['features'], train['labels']
+   X_valid, y_valid = valid['features'], valid['labels']
+   X_test, y_test = test['features'], test['labels']
+```
+
 ### Running the pipeline and testing 
 
 The images are read in batches of 128 and processed using the routines described above. About 150 -200 epochs were needed to get good performance especially since a slower learning rate of 0.0001 was being used as shown below.
@@ -201,6 +223,30 @@ The images are read in batches of 128 and processed using the routines described
     print("Model saved")
 ```    
 
+The model was setup as shown below 
+
+```python
+rate = 0.0001
+
+logits = LeNet(x, keep_prob_fc1, keep_prob_fc2)
+cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits, one_hot_y)
+loss_operation = tf.reduce_mean(cross_entropy)
+optimizer = tf.train.AdamOptimizer(learning_rate = rate)
+training_operation = optimizer.minimize(loss_operation)
+```
+
+And testing was done on the data set as shown below
+
+```python
+#test accuracy
+with tf.Session() as sess:
+    #saver.restore(sess, tf.train.latest_checkpoint('.'))
+    saver.restore(sess,'./lenet_final')
+    
+    test_accuracy = evaluate(X_test, y_test, 1.0, 1.0)
+    print("Test Accuracy = {:.3f}".format(test_accuracy))
+```
+
 After about 200 epochs, the validation accuracy of about 98% is achieved. Running this on the test set, an accuracy of ~96% is achieved.
 
 ### Testing the model on new images
@@ -216,6 +262,20 @@ Here are the same images after pre-processing
 And the result from the CNN, it can be seen that the model classifies the images accurately. 
 
 ![alt text](./writeup_images/test_image_results.png)
+
+Prediction was done by restoring the saves state and evaluating the model with the new input image
+
+```python
+#predict web_images
+with tf.Session() as sess:
+    #saver.restore(sess, tf.train.latest_checkpoint('.'))
+    saver.restore(sess,'./lenet_final')
+    softmax_web = sess.run(tf.nn.softmax(logits),  feed_dict={x: X_webimages, keep_prob_fc1: 1.0, keep_prob_fc2: 1.0})
+    #print(softmax_web)
+    
+    top5_probs = sess.run(tf.nn.top_k(softmax_web,k = 5))
+    #print(top5_probs)
+```
 
 The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images. This is due to the image quality being good - clean angles under good light conditions. 
 
