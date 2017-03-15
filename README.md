@@ -246,6 +246,7 @@ Image1
 
 
 For the rest of the images, the classifier was able to accurately identify them correctly with high certainity
+
 Image2
 
 |    Prob.         |   Prediction            |
