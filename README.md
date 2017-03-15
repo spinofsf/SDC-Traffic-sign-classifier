@@ -234,13 +234,13 @@ And the result from the CNN, it can be seen that the model classifies the images
 
 The top 5 softmax probabilities associated with each of these images is shown below. The top probability is close to 1 indicating that in most cases, the model is easily able to recognize the images.
  
-| Image 1 Top predictions                          |
-|:----------------:|:-----------------------------:|
-|    Prob: 99.753% | Class: Speed limit (50km/h)  |
-|    Prob: 0.184%  | Class: Stop                  |
-|    Prob: 0.042%  | Class: Keep left             |
-|    Prob: 0.021%  | Class: Speed limit (30km/h)  | 
-|    Prob: 0.000%  | Class: Speed limit (60km/h)  |
+|   Image 1 probs  |   Classes             |
+|:----------------:|:---------------------:|
+|    Prob: 99.753% | Speed limit (50km/h)  |
+|    Prob: 0.184%  | Stop                  |
+|    Prob: 0.042%  | Keep left             |
+|    Prob: 0.021%  | Speed limit (30km/h)  | 
+|    Prob: 0.000%  | Speed limit (60km/h)  |
 
 | Image 2 Top predictions
 |:-----------------:|:---------------------------:|
