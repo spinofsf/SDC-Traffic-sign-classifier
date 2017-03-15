@@ -35,7 +35,7 @@ Here is a random sample image from each of the 43 classes in the dataset. From t
 
 Looking at the distribution of training set images by class, it is clear the distribution is not very uniform. There are certain classes of traffic signs that are underrespresented. Augmenting data in these underrespresented classes is nececessary to improve the overal test accuracy. Described below are images with 
 
--> ![alt text](./writeup_images/image_class_hist.png) <-
+->![alt text](./writeup_images/image_class_hist.png)<-
 
 
 ### Model Architecture and Training
