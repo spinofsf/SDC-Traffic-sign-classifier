@@ -1,5 +1,5 @@
 # Traffic-sign-classifier
-The goal of this project is to train a convolutional neural net in tensorflow to classify traffic sign images using logistic regression. The original data set for this multi-class classification is available [here](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset) although a pickled dataset provided by Udacity is used for this implemetation.
+The goal of this project is to train a convolutional neural net in tensorflow to classify traffic sign images using logistic regression. The original data set for this multi-class classification is available [here](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset), although a pickled dataset provided by Udacity is used for this implemetation.
 Note that even though certain types of image classification problems(OCR etc.) using DL has exceeded human accuracy,it is not the case yet with traffic signs under real world scenarios that include different lighting conditions, wear&tear on signage and other obstacles. 
 
 Key steps of this implementation are:
