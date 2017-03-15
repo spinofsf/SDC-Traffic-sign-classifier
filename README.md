@@ -129,21 +129,22 @@ The final model architecture is located in the file `traffic_sign_classifier.ipy
 
 Here is a visualization of network and output from the model that shows the parameters in each layer. 
 
-![alt text](./writeup_images/conv_net.png)
+![alt text](./writeup_images/conv_image.png)
 
-| Layer            		|     Description	        					         | 
-|:---------------------:|:---------------------------------------------:| 
-| Input           		| 32x32x3 RGB image   							      | 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU			   		|												            |
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				      |
-| Convolution 3x3	      | etc.      								         	|
-| Fully connected		   | etc.        								         	|
-| Softmax				   | etc.        								         	|
-|					      	|											             	|
-|					      	|												            |
- 
-
+| Layer                    		|     Description	        					         | 
+|:------------------------------:|:---------------------------------------------:| 
+| Input           		         | 32x32x1 gray scale image   			   	      | 
+| Convolution 5x5     	         | 1x1 stride, valid padding, outputs 28x28x108 	|
+| RELU			   		         |												            |
+| Max pooling 2x2	    	         | 2x2 stride,  outputs 14x14x108 				   |
+| Convolution 5x5	               | 1x1 stride, valid padding, outputs 10x10x108  |    								         	|
+| RELU            	            |         								         	   |
+| Max pooling 2x2		            | 2x2 stride,  outputs 5x5x108         			|
+| Feedforward Layer1 2x2 Maxpool | 2x2 stride, outputs 7x7x108 		         	|
+| Flatten                     	| 5x5x108 + 7x7x108 = 7992 			            |
+| Fully connected                | Input 7992, Output 100                        |
+| Fully connected                | Input 100, Output 50                          |
+| Softmax                        | Input 50, Output 43                           |
 
 ### Pre-processing Images
 
