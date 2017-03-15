@@ -44,7 +44,7 @@ The classifier achieves a validation accuracy of ~98% and a test accuracy of ~96
 
 ### Final Model 
 
-The final model architecture is located in the file `traffic_sign_classifier.ipynb` and is shown below. As mentioned above, it consists of 2 convolution layers followed by 2 FC layers. Each convolution layers is followed by a Relu activation layers and a max pooling layer. The convolution windows are 5x5 and pooling windows are chosen to be 2x2. In addition, the output of the first stage (after pooling) is fed into first FC layer. 
+The final model architecture is located in the file `traffic_sign_classifier.ipynb` and is shown below. As mentioned above, it consists of 2 convolution layers followed by 2 FC layers. Each convolution layers is followed by a Relu activation layers and a max pooling layer. The convolution windows are 5x5 and pooling windows are chosen to be 2x2. In addition, the output of the first stage (after pooling) is fed into first FC layer. To ensure that the model generalizes, dropout of 0.5 was used in both the fully connected layers.
 
 ```python
    from tensorflow.contrib.layers import flatten
